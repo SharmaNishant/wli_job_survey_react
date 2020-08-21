@@ -44,7 +44,7 @@ var QuizQuestions = {
     },
     "wjs-q7": {
         next: "",
-        type: "select",
+        type: "select-jump",
         question: "What type of schooling are you currently in? If not currently in school, please provide highest level:",
         options: [
             {
@@ -77,10 +77,14 @@ var QuizQuestions = {
         question: "What are you studying?",
         options: Subjects
     },
-}
+    "wjs-q8": {
+        next: "wjs-q9",
+        type: "select",
+        question: "What do you plan to do after completing the current level?",
+        options: ["Pursuing further education.", "Start a career."]
+    },
 
-//     Question 8
-// After completing the current level, do you plan to to continue pursuing formal education, or do you plan to start a career ?
+}
 
 //     Question 9
 // List the top 3 subjects that interest you
