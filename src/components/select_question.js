@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Question(props) {
+function SelectQuestion(props) {
     return (
         <b className="question">{props.content}</b>
     );
