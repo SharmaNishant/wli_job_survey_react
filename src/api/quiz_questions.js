@@ -46,86 +46,68 @@ var QuizQuestions = {
         value: "challenge_preference"
     },
     "wjs-q7": {
-        next: "",
-        type: "select-jump",
+        next: "wjs-q8",
+        type: "select",
         question: "What type of schooling are you currently in? If not currently in school, please provide highest level:",
-        options: [
-            {
-                value: "High school",
-                next: "wjs-q8"
-            },
-            {
-                value: "Trade school",
-                next: "wjs-q7a"
-            },
-            {
-                value: "Community college",
-                next: "wjs-q7a"
-            },
-            {
-                value: "University",
-                next: "wjs-q7b"
-            },
-        ],
+        options: ["High school", "Trade school", "Community college", "University",],
         value: "education"
-    },
-    "wjs-q7a": {
-        next: "wjs-q8",
-        type: "select",
-        question: "What program are you enrolled in?",
-        options: SUBJECTS
-    },
-    "wjs-q7b": {
-        next: "wjs-q8",
-        type: "select",
-        question: "What are you studying?",
-        options: SUBJECTS
     },
     "wjs-q8": {
         next: "wjs-q9",
         type: "select",
-        question: "What do you plan to do after completing the current level?",
-        options: ["Pursuing further education.", "Start a career."]
+        question: "What are you studying or which program are you enrolled in?",
+        options: SUBJECTS,
+        value: "subject"
     },
     "wjs-q9": {
         next: "wjs-q10",
-        type: "select-multiple",
-        count: 3,
-        question: "Select the top 3 subjects that interest you.",
-        options: SUBJECTS
+        type: "select",
+        question: "What do you plan to do after completing the current level?",
+        options: ["Pursuing further education.", "Start a career."],
+        value: "career_plan"
     },
     "wjs-q10": {
         next: "wjs-q11",
-        type: "select",
-        question: "What state are you residing in?",
-        options: US_STATES
+        type: "select-multiple",
+        count: 3,
+        question: "Select the top 3 subjects that interest you.",
+        options: SUBJECTS,
+        value: "subjects_of_interest"
     },
     "wjs-q11": {
         next: "wjs-q12",
         type: "select",
-        question: "Do you want to stay in that location ? If not, type in the top 3 states you would want to be in?",
-        options: US_STATES.concat("Does not matter")
+        question: "What state are you residing in?",
+        options: US_STATES,
+        value: "residency"
     },
     "wjs-q12": {
         next: "wjs-q13",
-        type: "input",
-        as: "string",
-        length: 1000,
-        question: "Have you thought about where your water comes from or where your water goes?",
+        type: "select",
+        question: "Do you want to stay in that location ? If not, type in the top 3 states you would want to be in?",
+        options: US_STATES.concat("Does not matter"),
+        value: "prefered_residency"
     },
     "wjs-q13": {
         next: "wjs-q14",
-        type: "input",
-        as: "string",
+        type: "input-text",
         length: 1000,
-        question: "Have you ever thought about a career in the water industry ? If so, what careers have you considered ? If not, please explain why.",
+        question: "Have you thought about where your water comes from or where your water goes?",
+        value: "water_thoughts"
     },
     "wjs-q14": {
+        next: "wjs-q15",
+        type: "input-text",
+        length: 1000,
+        question: "Have you ever thought about a career in the water industry ? If so, what careers have you considered ? If not, please explain why.",
+        value: "career_thoughts"
+    },
+    "wjs-q15": {
         next: "wjs-results",
-        type: "input",
-        as: "email",
-        length: "100",
+        type: "input-email",
+        length: 100,
         question: "Email",
+        value: "email"
     }
 }
 

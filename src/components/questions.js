@@ -1,95 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TextInputQuestion(props) {
-    return (
-        <div>
-            <form onSubmit={props.handle_result}>
-                <label className="inputQuestion" htmlFor={props.content["question"]}>
-                    <b>{props.content["question"]}</b>
-                </label>
-                <br />
-                <input
-                    type="text"
-                    className="inputAnswer"
-                    name="question"
-                    maxlength={props.content["length"] || 32}
-                    id="result"
-                    required
-                />
-                <br />
-                <input type="submit" value="Next"></input>
-                <input /*type="hidden"*/ id="nextQuestionId" value={props.content["next"]} />
-                <input /*type="hidden"*/ id="answerId" value={props.content["value"]} />
-
-            </form>
-        </div>
-    );
-}
-
-TextInputQuestion.propTypes = {
-    content: PropTypes.string.isRequired,
-    question_type: PropTypes.string.isRequired,
-    handle_result: PropTypes.func.isRequired,
-};
-
-function NumberInputQuestion(props) {
-    return (
-        <div>
-            <form onSubmit={props.handle_result}>
-                <label className="inputQuestion" htmlFor={props.content["question"]}>
-                    <b>{props.content["question"]}</b>
-                </label>
-                <br />
-                <input
-                    type="number"
-                    className="inputAnswer"
-                    name="question"
-                    min={props.content["min"] || 10}
-                    max={props.content["max"] || 100}
-                    id="result"
-                    required
-                />
-                <br />
-                <input type="submit" value="Next"></input>
-                <input /*type="hidden"*/ id="nextQuestionId" value={props.content["next"]} />
-                <input /*type="hidden"*/ id="answerId" value={props.content["value"]} />
-            </form>
-        </div>
-    );
-}
-
-NumberInputQuestion.propTypes = {
-    content: PropTypes.string.isRequired,
-    question_type: PropTypes.string.isRequired,
-    handle_result: PropTypes.func.isRequired,
-};
-
-
-function SelectInputQuestion(props) {
-    return (
-        <div>
-            <form onSubmit={props.handle_result}>
-                <label className="inputQuestion" htmlFor={props.content["question"]}>
-                    <b>{props.content["question"]}</b>
-                </label>
-                <br />
-
-                <br />
-                <input type="submit" value="Next"></input>
-                <input /*type="hidden"*/ id="result" value="test" />
-                <input /*type="hidden"*/ id="nextQuestionId" value={props.content["next"]} />
-                <input /*type="hidden"*/ id="answerId" value={props.content["value"]} />
-            </form>
-        </div>
-    );
-}
-
-SelectInputQuestion.propTypes = {
-    content: PropTypes.string.isRequired,
-    question_type: PropTypes.string.isRequired,
-    handle_result: PropTypes.func.isRequired,
-};
+import TextInputQuestion from './text_input_question'
+import EmailInputQuestion from './email_input_question'
+import NumberInputQuestion from './number_input_question'
+import SelectInputQuestion from './select_question'
 
 
 function Question(props) {
@@ -98,7 +13,6 @@ function Question(props) {
         question =
             <TextInputQuestion
                 content={props.content}
-                value={props.value}
                 handle_result={props.handle_result}
             />
     }
@@ -106,15 +20,22 @@ function Question(props) {
         question =
             <NumberInputQuestion
                 content={props.content}
-                value={props.value}
                 handle_result={props.handle_result}
             />
     }
-    if (props.question_type === "select") {
+    if (props.question_type === "select" || props.question_type === "select-multiple") {
         question =
             <SelectInputQuestion
                 content={props.content}
-                value={props.value}
+                handle_result={props.handle_result}
+                update_selected_result={props.update_selected_result}
+                selected_option={props.selected_option}
+            />
+    }
+    if (props.question_type === "input-email") {
+        question =
+            <EmailInputQuestion
+                content={props.content}
                 handle_result={props.handle_result}
             />
     }
@@ -126,9 +47,10 @@ function Question(props) {
 }
 
 Question.propTypes = {
-    content: PropTypes.string.isRequired,
+    content: PropTypes.object.isRequired,
     question_type: PropTypes.string.isRequired,
     handle_result: PropTypes.func.isRequired,
+    update_selected_result: PropTypes.func.isRequired,
 };
 
 export default Question;

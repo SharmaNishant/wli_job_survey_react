@@ -4,6 +4,7 @@ import QuizQuestions from './api/quiz_questions'
 import Question from './components/questions';
 import QuestionCount from './components/question_count';
 import AnswerSelect from './components/answer_select';
+import Result from './components/result';
 
 import './App.css';
 
@@ -19,7 +20,8 @@ class App extends Component {
     this.state = {
       questions: {},
       currentQuestionId: "wjs-q1",
-      answers: { "name": "" }
+      answers: { "name": "" },
+      selectedOption: "",
     };
   }
 
@@ -30,16 +32,23 @@ class App extends Component {
   }
 
   updateNextQuestion(nextQuestionId) {
-    console.log(nextQuestionId)
+    // console.log(nextQuestionId)
     this.setState({
       currentQuestionId: nextQuestionId,
     });
   }
 
+  updateSelectedOption(event) {
+    console.log(event.target.value)
+    this.setState({
+      selectedOption: event.target.value
+    });
+  }
+
 
   handleResult(event) {
-    console.log("I am here")
-    console.log(event.target)
+    // console.log("I am here")
+    // console.log(event.target)
 
     event.preventDefault();
 
@@ -47,6 +56,12 @@ class App extends Component {
 
     let key = event.target.answerId.value
     let value = event.target.result.value
+
+    if (value === "check_selected_value") {
+      value = this.state.selectedOption
+      this.setState({ selectedOption: "" });
+    }
+
     answersCopy[key] = value
 
     this.setState({
@@ -65,24 +80,32 @@ class App extends Component {
       return;
     }
 
-    const currentQuestionData = vals[this.state.currentQuestionId]
-    console.log(currentQuestionData)
-    const currentQuestionType = currentQuestionData["type"]
+
+    let renderElement
+    if (this.state.currentQuestionId === "wjs-results") {
+      renderElement = <Result
+        content={this.state.answers}
+      />
+    }
+    else {
+      const currentQuestionData = vals[this.state.currentQuestionId]
+      const currentQuestionType = currentQuestionData["type"]
+
+      renderElement = <Question
+        content={currentQuestionData}
+        question_type={currentQuestionType}
+        handle_result={this.handleResult.bind(this)}
+        update_selected_result={this.updateSelectedOption.bind(this)}
+        selected_option={this.state.selectedOption}
+      />
+    }
 
     return (
       <div className="App" >
         <div className="App-header">
           <h2>Water Job Survey</h2>
         </div>
-
-        {
-          <Question
-            content={currentQuestionData}
-            question_type={currentQuestionType}
-            handle_result={this.handleResult.bind(this)}
-          />
-        }
-
+        {renderElement}
       </div>
     );
   }
