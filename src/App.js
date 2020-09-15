@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import QuizQuestions from './api/quiz_questions'
 import Question from './components/questions';
 import QuestionCount from './components/question_count';
-import AnswerSelect from './components/answer_select';
 import Result from './components/result';
+import RESULTS from './api/results';
 
 import './App.css';
 
@@ -20,56 +20,99 @@ class App extends Component {
     this.state = {
       questions: {},
       currentQuestionId: "wjs-q1",
-      answers: { "name": "" },
+      answers: {},
       selectedOption: "",
+      counter: 1
     };
   }
 
   componentDidMount() {
     this.setState({
       questions: QuizQuestions,
+      results: RESULTS,
     });
   }
 
+  // We don't want to rerender components unless the question is updating.
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.currentQuestionId !== nextState.currentQuestionId;
+  }
+
   updateNextQuestion(nextQuestionId) {
-    // console.log(nextQuestionId)
     this.setState({
       currentQuestionId: nextQuestionId,
     });
   }
 
-  updateSelectedOption(event) {
-    console.log(event.target.value)
+  // This is used by Select and Datalist type questions to set the current value in state onChange.
+  setSelectedOption(option) {
     this.setState({
-      selectedOption: event.target.value
+      selectedOption: option
     });
   }
 
+  async saveAnswers(){
+        // POST request using fetch with async/await
+        const requestOptions = {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(this.state.answers)
+      };
+      console.log(requestOptions)
+      const response = await fetch('http://localhost:3001/addresult', requestOptions);
+      console.log(response);
+  }
 
+
+  // main function logic to handle answers from each question, this also builds the candidate profile for when we are ready to save the output in the database.
   handleResult(event) {
-    // console.log("I am here")
-    // console.log(event.target)
-
     event.preventDefault();
 
+    // a copy of our current answers for state update later
     let answersCopy = this.state.answers
-
     let key = event.target.answerId.value
     let value = event.target.result.value
 
-    if (value === "check_selected_value") {
+    // handle select and datalist type questions 
+    if (value === "check_selected_value" || value === "check_datalist_value") {
       value = this.state.selectedOption
       this.setState({ selectedOption: "" });
     }
 
+    if (value === "check_datalist_multi_value") {
+      if (event.target.doesnt_matter.checked) {
+        value = "Doesn't matter"
+      }
+      // if string being empty (not set) and checkbox being unselected
+      else if (this.state.selectedOption === "" && !event.target.doesnt_matter.checked) {
+        //raise alert, user either need to select a value or select doesn't matter
+        alert("Please make a selection or check 'doesn't matter'")
+        return
+      }
+      else {
+        value = this.state.selectedOption
+      }
+
+      this.setState({ selectedOption: "" });
+    }
+
+    // save new answer pair 
     answersCopy[key] = value
 
     this.setState({
-      answers: answersCopy
+      answers: answersCopy,
+      counter: this.state.counter + 1
     });
 
     this.updateNextQuestion(event.target.nextQuestionId.value)
-    console.log(this.state.answers)
+    event.target.reset();
+
+    if(event.target.nextQuestionId.value === "wjs-results"){
+      this.saveAnswers()
+    }
   }
 
 
@@ -80,24 +123,43 @@ class App extends Component {
       return;
     }
 
-
     let renderElement
     if (this.state.currentQuestionId === "wjs-results") {
       renderElement = <Result
-        content={this.state.answers}
+                      subject={this.state.answers['subject']}
+                      preferred_subjects={this.state.answers['subjects_of_interest']}
+                      results={this.state.results}
       />
     }
     else {
       const currentQuestionData = vals[this.state.currentQuestionId]
       const currentQuestionType = currentQuestionData["type"]
 
-      renderElement = <Question
-        content={currentQuestionData}
-        question_type={currentQuestionType}
-        handle_result={this.handleResult.bind(this)}
-        update_selected_result={this.updateSelectedOption.bind(this)}
-        selected_option={this.state.selectedOption}
-      />
+      renderElement = <div className="container">
+        <div style={{ padding: "18px" }} className="card mb-3 border-0">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-8 order-md-1"></div>
+              <div className="col-md-4 order-md-2 mb-4">
+                < QuestionCount counter={this.state.counter} total={Object.keys(QuizQuestions).length} />
+              </div>
+            </div>
+            < Question
+              content={currentQuestionData}
+              question_type={currentQuestionType}
+              handle_result={this.handleResult.bind(this)}
+              update_selected_result={this.setSelectedOption.bind(this)}
+              selected_option={this.state.selectedOption}
+            />
+          </div>
+        </div>
+        {/* {Object.entries(this.state.answers)
+          .map(([key, value]) =>
+            <div key={key}>
+              {key} {value} <br />
+            </div>
+          )} */}
+      </div>
     }
 
     return (
@@ -105,7 +167,7 @@ class App extends Component {
         <div className="App-header">
           <h2>Water Job Survey</h2>
         </div>
-        {renderElement}
+        { renderElement}
       </div>
     );
   }

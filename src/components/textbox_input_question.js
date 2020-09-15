@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function NumberInputQuestion(props) {
+function TextboxInputQuestion(props) {
     return (
         <div>
             <form onSubmit={props.handle_result}>
@@ -9,28 +9,28 @@ function NumberInputQuestion(props) {
                     <label htmlFor="question">
                         <h5>{props.content["question"]}</h5>
                     </label>
-                    <input
-                        type="number"
+                    <textarea
                         className="form-control"
                         name="question"
-                        min={props.content["min"] || 10}
-                        max={props.content["max"] || 100}
+                        maxLength={props.content["length"] || 500}
                         id="result"
-                        autoFocus
+                        rows="5"
                         required
+                        autoFocus
                     />
                 </div>
                 <input type="submit" value="Next" className="btn btn-primary" />
                 <input type="hidden" id="nextQuestionId" value={props.content["next"]} readOnly />
                 <input type="hidden" id="answerId" value={props.content["value"]} readOnly />
+
             </form>
-        </div>
+        </div >
     );
 }
 
-NumberInputQuestion.propTypes = {
+TextboxInputQuestion.propTypes = {
     content: PropTypes.object.isRequired,
     handle_result: PropTypes.func.isRequired,
 };
 
-export default NumberInputQuestion;
+export default TextboxInputQuestion;

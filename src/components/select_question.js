@@ -6,27 +6,32 @@ function SelectInputQuestion(props) {
     return (
         <div>
             <form onSubmit={props.handle_result}>
-                <label className="inputQuestion" htmlFor={props.content["question"]}>
-                    <b>{props.content["question"]}</b>
-                </label>
-                <br />
-                {props.content["options"].map(option => (
-                    < div key={option} >
-                        <label>
-                            <input
-                                type="radio"
-                                value={option}
-                                name="option"
-                                // checked={props.selected_option === { option }}
-                                onChange={props.update_selected_result}
-                                required
-                            />
+                <div className="form-group">
+                    <label htmlFor="question">
+                        <h5>{props.content["question"]}</h5>
+                    </label>
+                    <br />
+                    {props.content["options"].map(option => (
+                        < div key={option} className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    type="radio"
+                                    value={option}
+                                    className="form-check-input"
+                                    name="question"
+                                    // checked={props.selected_option === { option }}
+                                    onChange={(event) => {
+                                        props.update_selected_result(event.target.value)
+                                    }}
+                                    required
+                                />
                             &nbsp;{option}
-                        </label>
-                        <br />
-                    </div>
-                ))}
-                <input type="submit" value="Next"></input>
+                            </label>
+                            <br />
+                        </div>
+                    ))}
+                </div>
+                <input type="submit" value="Next" className="btn btn-primary" />
                 <input type="hidden" id="result" value="check_selected_value" readOnly />
                 <input type="hidden" id="nextQuestionId" value={props.content["next"]} readOnly />
                 <input type="hidden" id="answerId" value={props.content["value"]} readOnly />

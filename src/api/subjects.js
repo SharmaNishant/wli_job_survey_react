@@ -1,7 +1,8 @@
 var SUBJECTS = [
     "Computer Science",
-    "Civil Engineering",
-    "Welding"
+    "Business",
+    "Biology",
+    "Chemistry",
 ]
 
 export default SUBJECTS;

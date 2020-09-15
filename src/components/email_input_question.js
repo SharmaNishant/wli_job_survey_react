@@ -5,20 +5,22 @@ function EmailInputQuestion(props) {
     return (
         <div>
             <form onSubmit={props.handle_result}>
-                <label className="inputQuestion" htmlFor={props.content["question"]}>
-                    <b>{props.content["question"]}</b>
-                </label>
-                <br />
-                <input
-                    type="email"
-                    className="inputAnswer"
-                    name="question"
-                    maxLength={props.content["length"] || 100}
-                    id="result"
-                    required
-                />
-                <br />
-                <input type="submit" value="Next"></input>
+                <div className="form-group">
+                    <label htmlFor="question">
+                        <h5>{props.content["question"]}</h5>
+                    </label>
+                    <input
+                        type="email"
+                        className="form-control"
+                        name="question"
+                        maxLength={props.content["length"] || 100}
+                        id="result"
+                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                        required
+                        autoFocus
+                    />
+                </div>
+                <input type="submit" value="Next" className="btn btn-primary" />
                 <input type="hidden" id="nextQuestionId" value={props.content["next"]} readOnly />
                 <input type="hidden" id="answerId" value={props.content["value"]} readOnly />
 

@@ -54,7 +54,7 @@ var QuizQuestions = {
     },
     "wjs-q8": {
         next: "wjs-q9",
-        type: "select",
+        type: "datalist",
         question: "What are you studying or which program are you enrolled in?",
         options: SUBJECTS,
         value: "subject"
@@ -68,7 +68,7 @@ var QuizQuestions = {
     },
     "wjs-q10": {
         next: "wjs-q11",
-        type: "select-multiple",
+        type: "datalist-multiple",
         count: 3,
         question: "Select the top 3 subjects that interest you.",
         options: SUBJECTS,
@@ -76,28 +76,29 @@ var QuizQuestions = {
     },
     "wjs-q11": {
         next: "wjs-q12",
-        type: "select",
+        type: "datalist",
         question: "What state are you residing in?",
         options: US_STATES,
         value: "residency"
     },
     "wjs-q12": {
         next: "wjs-q13",
-        type: "select",
+        type: "datalist-multiple",
+        count: 3,
         question: "Do you want to stay in that location ? If not, type in the top 3 states you would want to be in?",
-        options: US_STATES.concat("Does not matter"),
-        value: "prefered_residency"
+        options: US_STATES,
+        value: "preferred_residency"
     },
     "wjs-q13": {
         next: "wjs-q14",
-        type: "input-text",
+        type: "input-textbox",
         length: 1000,
         question: "Have you thought about where your water comes from or where your water goes?",
         value: "water_thoughts"
     },
     "wjs-q14": {
         next: "wjs-q15",
-        type: "input-text",
+        type: "input-textbox",
         length: 1000,
         question: "Have you ever thought about a career in the water industry ? If so, what careers have you considered ? If not, please explain why.",
         value: "career_thoughts"
