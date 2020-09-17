@@ -19,6 +19,7 @@ function EmailInputQuestion(props) {
                         required
                         autoFocus
                     />
+                    <small>We do not share this information with anyone.</small>
                 </div>
                 <input type="submit" value="Next" className="btn btn-primary" />
                 <input type="hidden" id="nextQuestionId" value={props.content["next"]} readOnly />

@@ -4,7 +4,8 @@ import QuizQuestions from './api/quiz_questions'
 import Question from './components/questions';
 import QuestionCount from './components/question_count';
 import Result from './components/result';
-import RESULTS from './api/results';
+import SUBJECTS_TO_JOBS from './api/subjects_to_jobs';
+import JOB_DESCRIPTIONS from './api/job_descriptions';
 
 import './App.css';
 
@@ -29,7 +30,8 @@ class App extends Component {
   componentDidMount() {
     this.setState({
       questions: QuizQuestions,
-      results: RESULTS,
+      subjects_to_jobs: SUBJECTS_TO_JOBS,
+      job_descriptions: JOB_DESCRIPTIONS,
     });
   }
 
@@ -128,7 +130,8 @@ class App extends Component {
       renderElement = <Result
                       subject={this.state.answers['subject']}
                       preferred_subjects={this.state.answers['subjects_of_interest']}
-                      results={this.state.results}
+                      subjects_to_jobs={this.state.subjects_to_jobs}
+                      job_descriptions={this.state.job_descriptions}
       />
     }
     else {
