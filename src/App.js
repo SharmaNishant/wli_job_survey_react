@@ -62,7 +62,7 @@ class App extends Component {
           body: JSON.stringify(this.state.answers)
       };
       console.log(requestOptions)
-      const response = await fetch('http://localhost:3001/addresult', requestOptions);
+      const response = await fetch('http://162.207.43.121:3001/addresult', requestOptions);
       console.log(response);
   }
 
