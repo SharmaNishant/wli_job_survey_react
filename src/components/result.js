@@ -54,7 +54,7 @@ function Result(props) {
     return (
         <div className="container">
             <br />
-            <p className="lead">Thank you for taking the time to complete the survey. The water industry provides a variety of rewarding careers. Those careers that many companies do not focus on getting top talent besides in the engineering field.</p>
+            <p className="lead"><b>Thank you for taking the time to complete the survey. The water industry provides a variety of rewarding careers.</b></p>
             <hr />
 
             <div className="card mb-3">

@@ -1,7 +1,9 @@
 var SUBJECTS = [
+    "Anthropology / Archaeology",
     "Art",
     "Biology",
     "Business / Marketing",
+    "Business Administration",
     "Chemistry",
     "Computer Sciences",
     "Construction",
@@ -13,6 +15,7 @@ var SUBJECTS = [
     "Geography",
     "History",
     "Journalism, Media Studies and Communication",
+    "Occupational Safety and Health",
     "Philosophy",
     "Political Science",
     "Psychology",
